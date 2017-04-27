@@ -45,20 +45,6 @@ t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count)
 	return (parcouru);
 }
 
-int	ft_is_number(char *number)
-{
-	int i;
-
-	i = 0;
-	while (i < ft_strlen(number))
-	{
-		if (ft_isdigit(number[i]) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 void test(t_parsing *var)
 {
 	t_room			*start;
@@ -83,6 +69,7 @@ static void	ft_error(t_parsing	*var)
 	{	
 		if (var->tabconnect[0] != NULL && var->tabconnect[1] != NULL)
 		{
+			exit(0);
 			printf("[Start %s]\n",var->start);
 			printf("[End %s]\n",var->end);
 			ft_putstr("On peut quand même lancer l'algo !\n");
@@ -140,7 +127,7 @@ int ft_fourmis(char *line)
 		}
 		i++;
 	}
-	printf("[Fourmis %d]\n",fourmis);
+	// printf("[Fourmis %d]\n",fourmis);
 	return(fourmis);
 }
 
@@ -219,10 +206,13 @@ t_parsing *parsing(int fichier)
 	cline = 0;
 	i = 0;
 	y = 0;
-	while (get_next_line(fichier, &line) != 0)
+	while (get_next_line(fichier, &line) == 1)
 	{
-		ft_putstr(line);
-		ft_putstr("\n");
+		if (fichier != 0)
+		{
+			ft_putstr(line);
+			ft_putstr("\n");
+		}
 		if (var.fourmis == 0)
 			var.fourmis = ft_fourmis(line);
 		if (x == 1)
@@ -241,6 +231,8 @@ t_parsing *parsing(int fichier)
 				ft_putstr("ERROR CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
 				exit(0);
 			}
+			ft_putstr(line);
+			ft_putstr("\n");
 			var.tabroom[y] = ft_start_end(line);
 			y++;
 		}
@@ -259,12 +251,16 @@ t_parsing *parsing(int fichier)
 			free(var.tab);
 		}
 		else
+		{
+			// ft_putstr("OHOHOH");
 			free(var.tab);
+		}
 		// free(line);
 	}
 	var.tabconnect[i] = NULL;
 	printf("-----------------------FIN LECTURE-----------------------\n");
-	printf("[TAB END%s]\n",var.tabconnect[i]);
+	// printf("[TAB END%s]\n",var.tabconnect[i]);
+	printf("[Fourmis %d]\n",var.fourmis);
 	if (var.start == NULL || var.end == NULL)
 	{
 		ft_putstr("ERROR START OU END\n");
@@ -272,20 +268,20 @@ t_parsing *parsing(int fichier)
 	}
 	printf("[Start %s]\n",var.start);
 	printf("[End %s]\n",var.end);
-	i = 0;
-	while (var.tabroom[i])
-	{
-		printf("[%s]",var.tabroom[i]);
-		i = i + 1;
-	}
-	printf("\n");
-	printf("\n");
-	i = 0;
-	while (var.tabconnect[i])
-	{
-		printf("[%s]",var.tabconnect[i]);
-		i = i + 1;
-	}
+	// i = 0;
+	// while (var.tabroom[i])
+	// {
+	// 	printf("[%s]",var.tabroom[i]);
+	// 	i = i + 1;
+	// }
+	// printf("\n");
+	// printf("\n");
+	// i = 0;
+	// while (var.tabconnect[i])
+	// {
+	// 	printf("[%s]",var.tabconnect[i]);
+	// 	i = i + 1;
+	// }
 	printf("\n");
 	test(&var);
 	// room(var.tabroom);
@@ -301,10 +297,20 @@ t_parsing *parsing(int fichier)
 	return (0);
 }
 
-int main()
+int	main(int argc, char *argv[])
 {
 	int 	fichier;
-
-	fichier = open("./maptest", O_RDONLY);
-	parsing(fichier);
+	
+	if (argc == 1)
+		parsing(0);
+	else if (argc == 2)
+	{
+		fichier = open("./maptest", O_RDONLY);
+		parsing(fichier);
+	}
+	else if (argc > 2)
+	{
+		ft_putstr("ERROR - Arg\n");
+		exit(0);
+	}
 }

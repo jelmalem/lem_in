@@ -17,6 +17,7 @@ SRC				=	convert.c			\
 					ft_algo.c			\
 					parsing.c			\
 					ft_managestruct.c	\
+					ft_is_number.c		\
 
 OBJ				=	$(addprefix $(OBJ_PATH),$(SRC:.c=.o))
 

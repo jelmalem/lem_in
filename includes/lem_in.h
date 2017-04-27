@@ -86,5 +86,6 @@ t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count);
 void			dijkstra(t_room *room, int distance);
 void			display_step(t_room *room, int number_ant, t_parcouru *parcouru, t_room *tmp3);
 void			display_algo(t_room *room, t_room *destination, t_parcouru *parcouru, int g_ant_count);
+int				ft_is_number(char *number);
 
 #endif

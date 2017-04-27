@@ -64,7 +64,10 @@ t_voisin		*next_voisin(t_room *room)
 	t_voisin	*closest;
 
 	if (room == NULL)
-		ft_putstr("Error\n");
+	{
+		ft_putstr("Error - \n");
+		exit(0);
+	}
 	n = room->next_voisin;
 	closest = n;
 	while (n != NULL)
@@ -76,6 +79,9 @@ t_voisin		*next_voisin(t_room *room)
 		n = n->next;
 	}
 	if (closest == NULL)
-		ft_putstr("Error\n");
+	{
+		ft_putstr("Error - Pas de chemin\n");
+		exit(0);
+	}
 	return (closest);
 }

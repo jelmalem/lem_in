@@ -63,16 +63,10 @@ typedef struct	s_parsing
 	int 		fourmis;
 	char 		*start;
 	char		*end;
-	char 		*tabroom[10000];
+	char 		*tabroom[100000];
 	char 		**tab;
-	char 		*tabconnect[10000];
+	char 		*tabconnect[100000];
 }				t_parsing;
-
-// typedef struct	s_algo
-// {
-// 	// char 		*tab[10000];
-// 	t_parsing	var;
-// }				t_algo;
 
 t_room			*find_room_hashtag(t_room *room, int id);
 void			room_push_front(t_room **room_head, t_room *room_to_copy);
@@ -87,5 +81,7 @@ void			dijkstra(t_room *room, int distance);
 void			display_step(t_room *room, int number_ant, t_parcouru *parcouru, t_room *tmp3);
 void			display_algo(t_room *room, t_room *destination, t_parcouru *parcouru, int g_ant_count);
 int				ft_is_number(char *number);
+int 			ft_tabchr(char **tab1, char *c);
+int			countstr(char *str, char c);
 
 #endif

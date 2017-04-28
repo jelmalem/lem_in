@@ -53,8 +53,8 @@ void test(t_parsing *var)
 
 	room(var->tabroom);
 	way(var->tabconnect);
-	printf("[ID START%d]\n", find_id(var->tabroom, var->start));
-	printf("[ID END%d]\n", find_id(var->tabroom, var->end));
+	// printf("[ID START%d]\n", find_id(var->tabroom, var->start));
+	// printf("[ID END%d]\n", find_id(var->tabroom, var->end));
 	start = find_room_hashtag(g_room_list, find_id(var->tabroom, var->start));
 	end = find_room_hashtag(g_room_list, find_id(var->tabroom, var->end));
 	parcouru = init_struct_parcours(start, var->fourmis);
@@ -69,35 +69,18 @@ static void	ft_error(t_parsing	*var)
 	{	
 		if (var->tabconnect[0] != NULL && var->tabconnect[1] != NULL)
 		{
-			exit(0);
-			printf("[Start %s]\n",var->start);
-			printf("[End %s]\n",var->end);
-			ft_putstr("On peut quand même lancer l'algo !\n");
+			// printf("[Start %s]\n",var->start);
+			// printf("[End %s]\n",var->end);
+			ft_putstr("ERROR - On peut quand même lancer l'algo !\n");
 			test(var);
 			exit(0);
 		}
 	}
 	else
 	{
-		ft_putstr("ERROR 1 - On ne peut pas lancer l'algo\n");
+		ft_putstr("ERROR - On ne peut pas lancer l'algo\n");
 		exit(0);
 	}
-}
-
-int			countstr(char *str, char c)
-{
-	int		count;
-	int		i;
-
-	count = 0;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			count++;
-		i++;
-	}
-	return (count);
 }
 
 int ft_fourmis(char *line)
@@ -108,7 +91,7 @@ int ft_fourmis(char *line)
 	i = 0;
 	if (ft_strlen(line) == 0)
 	{
-		ft_putstr("ERROR FOURMIS\n");
+		ft_putstr("ERROR - FOURMIS\n");
 		exit(0);
 	}
 	while (line[i])
@@ -117,12 +100,12 @@ int ft_fourmis(char *line)
 			fourmis = ft_atoi(line);
 		if (fourmis == 0)
 		{
-			ft_putstr("Il n'y a pas de fourmis EXIT !\n");
+			ft_putstr("ERROR - Il n'y a pas de fourmis!\n");
 			exit(0);
 		}
 		else if (ft_isdigit(line[i]) != 1)
 		{
-			ft_putstr("ERROR FOURMIS\n");
+			ft_putstr("ERROR - FOURMIS\n");
 			exit(0);
 		}
 		i++;
@@ -149,23 +132,6 @@ char *ft_start_end(char *line)
 		exit(0);
 	}
 	return(val);
-}
-
-int ft_tabchr(char **tab1, char *c)
-{
-	int x;
-	int count;
-
-	count = 0;
-	x = 0;
-	while (tab1[x])
-	{	
-		if (ft_strcmp(tab1[x], c) == 0)
-			count++;
-		x++;
-	}
-	// printf("[Count %d]\n",count);
-	return (count);
 }
 
 int ft_verifline(char *line)
@@ -215,7 +181,6 @@ t_parsing *parsing(int fichier)
 	var.start = NULL;
 	var.end = NULL;
 	var.fourmis = 0;
-	// var.tab[0] = NULL;
 	i = 0;
 	y = 0;
 	while (get_next_line(fichier, &line) == 1)
@@ -227,8 +192,9 @@ t_parsing *parsing(int fichier)
 		}
 		if (ft_verifline(line) == 1 && var.fourmis != 0)
 		{
-			ft_putstr("MERDE");
-			ft_putstr("\n");
+			// ft_putstr("MERDE");
+			// ft_putstr("\n");
+			ft_error(&var);
 			exit(0);
 		}
 		if (var.fourmis == 0)
@@ -246,11 +212,9 @@ t_parsing *parsing(int fichier)
 		{
 			if (ft_tabchr(var.tabroom, ft_start_end(line)) != 0)
 			{
-				ft_putstr("ERROR CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
+				ft_putstr("ERROR - CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
 				exit(0);
 			}
-			// ft_putstr(line);
-			// ft_putstr("\n");
 			var.tabroom[y] = ft_start_end(line);
 			y++;
 		}
@@ -259,7 +223,7 @@ t_parsing *parsing(int fichier)
 		{
 			if (ft_tabchr(var.tabroom, var.tab[0]) == 0 || ft_tabchr(var.tabroom, var.tab[1]) == 0)
 			{
-				ft_putstr("ERROR CHAMBRE NON INIT\n");
+				ft_putstr("ERROR - CHAMBRE NON INIT\n");
 				ft_error(&var);
 			}
 			var.tabconnect[i] = var.tab[0];
@@ -269,19 +233,15 @@ t_parsing *parsing(int fichier)
 			free(var.tab);
 		}
 		else
-		{
-			// ft_putstr("OHOHOH");
 			free(var.tab);
-		}
 		// free(line);
 	}
 	var.tabconnect[i] = NULL;
 	printf("-----------------------FIN LECTURE-----------------------\n");
-	// printf("[TAB END%s]\n",var.tabconnect[i]);
 	printf("[Fourmis %d]\n",var.fourmis);
 	if (var.start == NULL || var.end == NULL)
 	{
-		ft_putstr("ERROR START OU END\n");
+		ft_putstr("ERROR - START OU END\n");
 		ft_error(&var);
 	}
 	printf("[Start %s]\n",var.start);

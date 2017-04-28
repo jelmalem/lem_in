@@ -18,6 +18,8 @@ SRC				=	convert.c			\
 					parsing.c			\
 					ft_managestruct.c	\
 					ft_is_number.c		\
+					ft_tabchr.c			\
+					countstr.c			\
 
 OBJ				=	$(addprefix $(OBJ_PATH),$(SRC:.c=.o))
 

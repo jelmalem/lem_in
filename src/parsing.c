@@ -168,33 +168,46 @@ int ft_tabchr(char **tab1, char *c)
 	return (count);
 }
 
-// void test(t_parsing *var)
-// {
-// 	t_room			*start;
-// 	t_room			*end;
-// 	t_parcouru		*parcouru;
-
-// 	room(var->tabroom);
-// 	way(var->tabconnect);
-// 	printf("[ID START%d]\n", find_id(var->tabroom, var->start));
-// 	printf("[ID END%d]\n", find_id(var->tabroom, var->end));
-// 	start = find_room_hashtag(g_room_list, find_id(var->tabroom, var->start));
-// 	end = find_room_hashtag(g_room_list, find_id(var->tabroom, var->end));
-// 	parcouru = init_struct_parcours(start, var->fourmis);
-// 	end->distance = 0;
-// 	dijkstra(end, 0);
-// 	display_algo(start, end, parcouru, var->fourmis);
-// }
+int ft_verifline(char *line)
+{
+	char **tab;
+	if (line[0] == '#')
+		return(0);
+	if (ft_strcmp(line, "##start") == 0)
+		return(0);
+	if (ft_strcmp(line, "##end") == 0)
+		return(0);
+	if (countstr(line,' ') == 2)
+	{
+		tab = ft_strsplit(line, ' ');
+		if (tab[1] != NULL && ft_is_number(tab[1]) != 0 && ft_is_number(tab[2]) != 0)
+		{
+			free(tab);
+			return(0);
+		}
+		else
+		{
+			free(tab);
+			return(1);
+		}
+	}
+	tab = ft_strsplit(line, '-');
+	if (tab[1] != NULL)
+	{
+		free(tab);
+		return(0);
+	}
+	free(tab);
+	return(1);
+}
 
 t_parsing *parsing(int fichier)
 {
-	char	*line;
-	int		i;
-	int		x;
-	int		y;
-	int		cline;
-	char 	*temp;
-	t_parsing	var;
+	char			*line;
+	int				i;
+	int				x;
+	int				y;
+	t_parsing		var;
 	t_room			*start;
 	t_room			*end;
 	t_parcouru		*parcouru;
@@ -203,7 +216,6 @@ t_parsing *parsing(int fichier)
 	var.end = NULL;
 	var.fourmis = 0;
 	// var.tab[0] = NULL;
-	cline = 0;
 	i = 0;
 	y = 0;
 	while (get_next_line(fichier, &line) == 1)
@@ -212,6 +224,12 @@ t_parsing *parsing(int fichier)
 		{
 			ft_putstr(line);
 			ft_putstr("\n");
+		}
+		if (ft_verifline(line) == 1 && var.fourmis != 0)
+		{
+			ft_putstr("MERDE");
+			ft_putstr("\n");
+			exit(0);
 		}
 		if (var.fourmis == 0)
 			var.fourmis = ft_fourmis(line);
@@ -231,8 +249,8 @@ t_parsing *parsing(int fichier)
 				ft_putstr("ERROR CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
 				exit(0);
 			}
-			ft_putstr(line);
-			ft_putstr("\n");
+			// ft_putstr(line);
+			// ft_putstr("\n");
 			var.tabroom[y] = ft_start_end(line);
 			y++;
 		}
@@ -268,32 +286,8 @@ t_parsing *parsing(int fichier)
 	}
 	printf("[Start %s]\n",var.start);
 	printf("[End %s]\n",var.end);
-	// i = 0;
-	// while (var.tabroom[i])
-	// {
-	// 	printf("[%s]",var.tabroom[i]);
-	// 	i = i + 1;
-	// }
-	// printf("\n");
-	// printf("\n");
-	// i = 0;
-	// while (var.tabconnect[i])
-	// {
-	// 	printf("[%s]",var.tabconnect[i]);
-	// 	i = i + 1;
-	// }
 	printf("\n");
 	test(&var);
-	// room(var.tabroom);
-	// way(var.tabconnect);
-	// printf("[ID START%d]\n", find_id(var.tabroom, var.start));
-	// printf("[ID END%d]\n", find_id(var.tabroom, var.end));
-	// start = find_room_hashtag(g_room_list, find_id(var.tabroom, var.start));
-	// end = find_room_hashtag(g_room_list, find_id(var.tabroom, var.end));
-	// parcouru = init_struct_parcours(start, var.fourmis);
-	// end->distance = 0;
-	// dijkstra(end, 0);
-	// display_algo(start, end, parcouru, var.fourmis);
 	return (0);
 }
 
@@ -305,7 +299,7 @@ int	main(int argc, char *argv[])
 		parsing(0);
 	else if (argc == 2)
 	{
-		fichier = open("./maptest", O_RDONLY);
+		fichier = open(argv[1], O_RDONLY);
 		parsing(fichier);
 	}
 	else if (argc > 2)
@@ -313,4 +307,5 @@ int	main(int argc, char *argv[])
 		ft_putstr("ERROR - Arg\n");
 		exit(0);
 	}
+	fichier = 0;
 }

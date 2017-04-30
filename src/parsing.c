@@ -166,6 +166,86 @@ int ft_verifline(char *line)
 	free(tab);
 	return(1);
 }
+int parsing_ter(char *line, t_parsing	*var, int i)
+{
+	char 		**tab;
+
+	tab = ft_strsplit(line, '-');
+	if (tab[1] != NULL)
+	{
+		if (ft_tabchr(var->tabroom, tab[0]) == 0 || ft_tabchr(var->tabroom, tab[1]) == 0)
+		{
+			ft_putstr("ERROR - CHAMBRE NON INIT\n");
+			ft_error(var);
+		}
+		var->tabconnect[i] = tab[0];
+		i++;
+		var->tabconnect[i] = tab[1];
+		i++;
+		free(tab);
+	}
+	else
+		free(tab);
+	return(i);
+}
+
+int parsing_bis(char *line, t_parsing	*var, int y)
+{
+
+	static int x;
+	// ft_printf("[Valeur de y %d]", y);
+	// ft_printf("[Start %s]\n",var->start);
+	// ft_printf("[End %s]\n",var->end);
+	// ft_printf("LINE : %s\n",line);
+	if (var->fourmis == 0)
+		var->fourmis = ft_fourmis(line);
+	if (x == 1)
+		var->start = ft_start_end(line);
+	if (x == 2)
+		var->end = ft_start_end(line);
+	x = 0;
+	if (ft_strcmp(line, "##start") == 0)
+		x = 1;
+	if (ft_strcmp(line, "##end") == 0)
+		x = 2;
+	if (countstr(line,' ') == 2 && line[0] != '#')
+	{
+		if (ft_tabchr(var->tabroom, ft_start_end(line)) != 0)
+		{
+			ft_putstr("ERROR - CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
+			exit(0);
+		}
+		var->tabroom[y] = ft_start_end(line);
+		y++;
+	}
+	return (y);
+}
+
+// void pre_parsing(int fichier, char *line, t_parsing	*var)
+// {
+// 	int x;
+// 	int y;
+// 	char **tab;
+
+// 	x = 0;
+// 	y = 0;
+// 	while (get_next_line(fichier, &line) == 1)
+// 	{
+// 		if (countstr(line,' ') == 2 && line[0] != '#')
+// 			y++;
+// 		tab = ft_strsplit(line, '-');
+// 		if (tab[1] != NULL)
+// 		{
+// 			x = x + 2;
+// 			free(tab);
+// 		}
+// 	}
+// 	var->tabroom = malloc(y * sizeof(char));
+// 	var->tabconnect = malloc(x * sizeof(char));
+// 	// ft_printf("[Valeur de y : %d]\n", y);
+// 	// ft_printf("[Valeur de x : %d]\n", x);
+// }
+
 
 t_parsing *parsing(int fichier)
 {
@@ -174,79 +254,41 @@ t_parsing *parsing(int fichier)
 	int				x;
 	int				y;
 	t_parsing		var;
-	t_room			*start;
-	t_room			*end;
-	t_parcouru		*parcouru;
+	int back;
 
 	var.start = NULL;
 	var.end = NULL;
 	var.fourmis = 0;
 	i = 0;
 	y = 0;
+	x = 0;
+	// ft_printf("[Fichier 1 : %d]\n",fichier);
+	// pre_parsing(fichier, line, &var);
+	// fichier = open("maptest", O_RDONLY);
+	// ft_printf("[Fichier 2 : %d]\n",fichier);
 	while (get_next_line(fichier, &line) == 1)
 	{
 		if (fichier != 0)
-		{
-			ft_putstr(line);
-			ft_putstr("\n");
-		}
+			ft_printf("%s\n",line);
 		if (ft_verifline(line) == 1 && var.fourmis != 0)
 		{
-			// ft_putstr("MERDE");
-			// ft_putstr("\n");
 			ft_error(&var);
 			exit(0);
 		}
-		if (var.fourmis == 0)
-			var.fourmis = ft_fourmis(line);
-		if (x == 1)
-			var.start = ft_start_end(line);
-		if (x == 2)
-			var.end = ft_start_end(line);
-		x = 0;
-		if (ft_strcmp(line, "##start") == 0)
-			x = 1;
-		if (ft_strcmp(line, "##end") == 0)
-			x = 2;
-		if (countstr(line,' ') == 2 && line[0] != '#')
-		{
-			if (ft_tabchr(var.tabroom, ft_start_end(line)) != 0)
-			{
-				ft_putstr("ERROR - CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
-				exit(0);
-			}
-			var.tabroom[y] = ft_start_end(line);
-			y++;
-		}
-		var.tab = ft_strsplit(line, '-');
-		if (var.tab[1] != NULL)
-		{
-			if (ft_tabchr(var.tabroom, var.tab[0]) == 0 || ft_tabchr(var.tabroom, var.tab[1]) == 0)
-			{
-				ft_putstr("ERROR - CHAMBRE NON INIT\n");
-				ft_error(&var);
-			}
-			var.tabconnect[i] = var.tab[0];
-			i++;
-			var.tabconnect[i] = var.tab[1];
-			i++;
-			free(var.tab);
-		}
-		else
-			free(var.tab);
-		// free(line);
+		y = parsing_bis(line, &var, y);
+		i = parsing_ter(line, &var, i);
 	}
 	var.tabconnect[i] = NULL;
-	printf("-----------------------FIN LECTURE-----------------------\n");
-	printf("[Fourmis %d]\n",var.fourmis);
+	// printf("-----------------------FIN LECTURE-----------------------\n");
+	// printf("[Fourmis %d]\n",var.fourmis);
 	if (var.start == NULL || var.end == NULL)
 	{
 		ft_putstr("ERROR - START OU END\n");
 		ft_error(&var);
 	}
-	printf("[Start %s]\n",var.start);
-	printf("[End %s]\n",var.end);
-	printf("\n");
+	// printf("[Start %s]\n",var.start);
+	// printf("[End %s]\n",var.end);
+	// printf("\n");
 	test(&var);
 	return (0);
 }

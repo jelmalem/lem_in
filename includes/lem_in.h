@@ -14,6 +14,7 @@
 # define LEM_IN_H
 
 # include "../libft/includes/libft.h"
+# include "../libft/includes/libftprintf.h"
 # include "../libft/includes/get_next_line.h"
 # include <string.h>
 # include <unistd.h>
@@ -64,7 +65,7 @@ typedef struct	s_parsing
 	char 		*start;
 	char		*end;
 	char 		*tabroom[100000];
-	char 		**tab;
+	// char 		**tab;
 	char 		*tabconnect[100000];
 }				t_parsing;
 

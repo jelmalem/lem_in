@@ -26,10 +26,10 @@ OBJ				=	$(addprefix $(OBJ_PATH),$(SRC:.c=.o))
 CC				=	gcc
 CFLAGS			=	#-Wall -Wextra -Werror
 
-LIBFTPRINTF		=	./libft/libft.a
+LIBFTPRINTF		=	./libft/libft.a ./libft/libftprintf.a
 LIBINC			=	-I./libft/includes
-LIBLINK			=	-L./libft -lft
-
+#LIBLINK			=	-L./libft -lft
+LIBLINK			=	$(LIBFTPRINTF)
 SRC_PATH		=	./src/
 
 INC_PATH		=	./includes/
@@ -50,7 +50,7 @@ obj:
 libftprintf:	$(LIBFTPRINTF)
 
 $(LIBFTPRINTF):
-				@make -C ./libft/
+				make -C ./libft/
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 				@$(CC) $(CFLAGS) $(LIBINC) -I $(INC_PATH) -o $@ -c $<

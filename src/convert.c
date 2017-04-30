@@ -43,7 +43,7 @@ void	room(char **tabroom)
 		room.next_voisin = NULL;
 		g_id = 0;
 		room_push_front(&g_room_list, &room);
-		printf("%s %d %d\n", room.name, room.x, room.y);
+		// printf("%s %d %d\n", room.name, room.x, room.y);
 		i++;
 		g_case_count++;
 	}
@@ -67,7 +67,7 @@ void	way(char **tabconnect)
 		}
 		voisin_push_front(&left->next_voisin, right);
 		voisin_push_front(&right->next_voisin, left);
-		printf("%s-%s\n", left->name, right->name);
+		// printf("%s-%s\n", left->name, right->name);
 		i = i + 2;
 	}
 }

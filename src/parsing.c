@@ -45,16 +45,19 @@ t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count)
 	return (parcouru);
 }
 
-void test(t_parsing *var)
+void	run_algo(t_parsing *var)
 {
 	t_room			*start;
 	t_room			*end;
 	t_parcouru		*parcouru;
 
+	if (var->start == NULL || var->end == NULL)
+	{
+		ft_putstr("ERROR - START OU END\n");
+		exit(0);
+	}
 	room(var->tabroom);
 	way(var->tabconnect);
-	// printf("[ID START%d]\n", find_id(var->tabroom, var->start));
-	// printf("[ID END%d]\n", find_id(var->tabroom, var->end));
 	start = find_room_hashtag(g_room_list, find_id(var->tabroom, var->start));
 	end = find_room_hashtag(g_room_list, find_id(var->tabroom, var->end));
 	parcouru = init_struct_parcours(start, var->fourmis);
@@ -66,13 +69,11 @@ void test(t_parsing *var)
 static void	ft_error(t_parsing	*var)
 {
 	if (var->start != NULL && var->end != NULL)
-	{	
+	{
 		if (var->tabconnect[0] != NULL && var->tabconnect[1] != NULL)
 		{
-			// printf("[Start %s]\n",var->start);
-			// printf("[End %s]\n",var->end);
 			ft_putstr("ERROR - On peut quand même lancer l'algo !\n");
-			test(var);
+			run_algo(var);
 			exit(0);
 		}
 	}
@@ -83,7 +84,7 @@ static void	ft_error(t_parsing	*var)
 	}
 }
 
-int ft_fourmis(char *line)
+int	ft_fourmis(char	*line)
 {
 	int fourmis;
 	int i;
@@ -98,19 +99,13 @@ int ft_fourmis(char *line)
 	{
 		if (ft_isdigit(line[i]) == 1)
 			fourmis = ft_atoi(line);
-		if (fourmis == 0)
+		if (fourmis == 0 || ft_isdigit(line[i]) != 1)
 		{
-			ft_putstr("ERROR - Il n'y a pas de fourmis!\n");
-			exit(0);
-		}
-		else if (ft_isdigit(line[i]) != 1)
-		{
-			ft_putstr("ERROR - FOURMIS\n");
+			ft_putstr("ERROR - Il n'y a pas de fourmis! OU FOURMIS\n");
 			exit(0);
 		}
 		i++;
 	}
-	// printf("[Fourmis %d]\n",fourmis);
 	return(fourmis);
 }
 
@@ -138,33 +133,28 @@ int ft_verifline(char *line)
 {
 	char **tab;
 	if (line[0] == '#')
-		return(0);
+		return (0);
 	if (ft_strcmp(line, "##start") == 0)
-		return(0);
+		return (0);
 	if (ft_strcmp(line, "##end") == 0)
-		return(0);
+		return (0);
 	if (countstr(line,' ') == 2)
 	{
 		tab = ft_strsplit(line, ' ');
 		if (tab[1] != NULL && ft_is_number(tab[1]) != 0 && ft_is_number(tab[2]) != 0)
-		{
-			free(tab);
-			return(0);
-		}
+			return (0);
 		else
-		{
-			free(tab);
-			return(1);
-		}
+			return (1);
+		free(tab);
 	}
 	tab = ft_strsplit(line, '-');
 	if (tab[1] != NULL)
 	{
 		free(tab);
-		return(0);
+		return (0);
 	}
 	free(tab);
-	return(1);
+	return (1);
 }
 int parsing_ter(char *line, t_parsing	*var, int i)
 {
@@ -186,17 +176,15 @@ int parsing_ter(char *line, t_parsing	*var, int i)
 	}
 	else
 		free(tab);
-	return(i);
+	return (i);
 }
 
 int parsing_bis(char *line, t_parsing	*var, int y)
 {
-
 	static int x;
-	// ft_printf("[Valeur de y %d]", y);
-	// ft_printf("[Start %s]\n",var->start);
-	// ft_printf("[End %s]\n",var->end);
-	// ft_printf("LINE : %s\n",line);
+
+	if (ft_verifline(line) == 1 && var->fourmis != 0)
+		ft_error(var);
 	if (var->fourmis == 0)
 		var->fourmis = ft_fourmis(line);
 	if (x == 1)
@@ -221,33 +209,7 @@ int parsing_bis(char *line, t_parsing	*var, int y)
 	return (y);
 }
 
-// void pre_parsing(int fichier, char *line, t_parsing	*var)
-// {
-// 	int x;
-// 	int y;
-// 	char **tab;
-
-// 	x = 0;
-// 	y = 0;
-// 	while (get_next_line(fichier, &line) == 1)
-// 	{
-// 		if (countstr(line,' ') == 2 && line[0] != '#')
-// 			y++;
-// 		tab = ft_strsplit(line, '-');
-// 		if (tab[1] != NULL)
-// 		{
-// 			x = x + 2;
-// 			free(tab);
-// 		}
-// 	}
-// 	var->tabroom = malloc(y * sizeof(char));
-// 	var->tabconnect = malloc(x * sizeof(char));
-// 	// ft_printf("[Valeur de y : %d]\n", y);
-// 	// ft_printf("[Valeur de x : %d]\n", x);
-// }
-
-
-t_parsing *parsing(int fichier)
+void parsing(int fichier)
 {
 	char			*line;
 	int				i;
@@ -262,35 +224,15 @@ t_parsing *parsing(int fichier)
 	i = 0;
 	y = 0;
 	x = 0;
-	// ft_printf("[Fichier 1 : %d]\n",fichier);
-	// pre_parsing(fichier, line, &var);
-	// fichier = open("maptest", O_RDONLY);
-	// ft_printf("[Fichier 2 : %d]\n",fichier);
 	while (get_next_line(fichier, &line) == 1)
 	{
 		if (fichier != 0)
 			ft_printf("%s\n",line);
-		if (ft_verifline(line) == 1 && var.fourmis != 0)
-		{
-			ft_error(&var);
-			exit(0);
-		}
 		y = parsing_bis(line, &var, y);
 		i = parsing_ter(line, &var, i);
 	}
 	var.tabconnect[i] = NULL;
-	// printf("-----------------------FIN LECTURE-----------------------\n");
-	// printf("[Fourmis %d]\n",var.fourmis);
-	if (var.start == NULL || var.end == NULL)
-	{
-		ft_putstr("ERROR - START OU END\n");
-		ft_error(&var);
-	}
-	// printf("[Start %s]\n",var.start);
-	// printf("[End %s]\n",var.end);
-	// printf("\n");
-	test(&var);
-	return (0);
+	run_algo(&var);
 }
 
 int	main(int argc, char *argv[])

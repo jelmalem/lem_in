@@ -19,7 +19,7 @@ int					g_id_start;
 int					g_id_end;
 t_room				*g_room_list;
 
-t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count)
+t_parcouru			*init_struct_parcours(t_room *room, int g_ant_count)
 {
 	int				i;
 	int				j;
@@ -45,7 +45,7 @@ t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count)
 	return (parcouru);
 }
 
-void	run_algo(t_parsing *var)
+void				run_algo(t_parsing *var)
 {
 	t_room			*start;
 	t_room			*end;
@@ -66,7 +66,7 @@ void	run_algo(t_parsing *var)
 	display_algo(start, end, parcouru, var->fourmis);
 }
 
-static void	ft_error(t_parsing	*var)
+void			ft_error(t_parsing *var)
 {
 	if (var->start != NULL && var->end != NULL)
 	{
@@ -84,150 +84,24 @@ static void	ft_error(t_parsing	*var)
 	}
 }
 
-int	ft_fourmis(char	*line)
-{
-	int fourmis;
-	int i;
-
-	i = 0;
-	if (ft_strlen(line) == 0)
-	{
-		ft_putstr("ERROR - FOURMIS\n");
-		exit(0);
-	}
-	while (line[i])
-	{
-		if (ft_isdigit(line[i]) == 1)
-			fourmis = ft_atoi(line);
-		if (fourmis == 0 || ft_isdigit(line[i]) != 1)
-		{
-			ft_putstr("ERROR - Il n'y a pas de fourmis! OU FOURMIS\n");
-			exit(0);
-		}
-		i++;
-	}
-	return(fourmis);
-}
-
-
-char *ft_start_end(char *line)
-{
-	char *val;
-	char **tab;
-	tab = ft_strsplit(line, ' ');
-	if (tab[1] != NULL && ft_is_number(tab[1]) != 0 && ft_is_number(tab[2]) != 0)
-	{
-		val = tab[0];
-		free(tab);
-	}
-	else
-	{
-		free(tab);
-		ft_putstr("ERROR\n");
-		exit(0);
-	}
-	return(val);
-}
-
-int ft_verifline(char *line)
-{
-	char **tab;
-	if (line[0] == '#')
-		return (0);
-	if (ft_strcmp(line, "##start") == 0)
-		return (0);
-	if (ft_strcmp(line, "##end") == 0)
-		return (0);
-	if (countstr(line,' ') == 2)
-	{
-		tab = ft_strsplit(line, ' ');
-		if (tab[1] != NULL && ft_is_number(tab[1]) != 0 && ft_is_number(tab[2]) != 0)
-			return (0);
-		else
-			return (1);
-		free(tab);
-	}
-	tab = ft_strsplit(line, '-');
-	if (tab[1] != NULL)
-	{
-		free(tab);
-		return (0);
-	}
-	free(tab);
-	return (1);
-}
-int parsing_ter(char *line, t_parsing	*var, int i)
-{
-	char 		**tab;
-
-	tab = ft_strsplit(line, '-');
-	if (tab[1] != NULL)
-	{
-		if (ft_tabchr(var->tabroom, tab[0]) == 0 || ft_tabchr(var->tabroom, tab[1]) == 0)
-		{
-			ft_putstr("ERROR - CHAMBRE NON INIT\n");
-			ft_error(var);
-		}
-		var->tabconnect[i] = tab[0];
-		i++;
-		var->tabconnect[i] = tab[1];
-		i++;
-		free(tab);
-	}
-	else
-		free(tab);
-	return (i);
-}
-
-int parsing_bis(char *line, t_parsing	*var, int y)
-{
-	static int x;
-
-	if (ft_verifline(line) == 1 && var->fourmis != 0)
-		ft_error(var);
-	if (var->fourmis == 0)
-		var->fourmis = ft_fourmis(line);
-	if (x == 1)
-		var->start = ft_start_end(line);
-	if (x == 2)
-		var->end = ft_start_end(line);
-	x = 0;
-	if (ft_strcmp(line, "##start") == 0)
-		x = 1;
-	if (ft_strcmp(line, "##end") == 0)
-		x = 2;
-	if (countstr(line,' ') == 2 && line[0] != '#')
-	{
-		if (ft_tabchr(var->tabroom, ft_start_end(line)) != 0)
-		{
-			ft_putstr("ERROR - CHAMBRE DEJA INIT - ON PEUT PAS CONTINUER\n");
-			exit(0);
-		}
-		var->tabroom[y] = ft_start_end(line);
-		y++;
-	}
-	return (y);
-}
-
-void parsing(int fichier)
+void				parsing(int fichier)
 {
 	char			*line;
 	int				i;
-	int				x;
 	int				y;
 	t_parsing		var;
-	int back;
 
 	var.start = NULL;
 	var.end = NULL;
 	var.fourmis = 0;
 	i = 0;
 	y = 0;
-	x = 0;
 	while (get_next_line(fichier, &line) == 1)
 	{
+		if (ft_verifline(line) == 1 && var.fourmis != 0)
+			ft_error(&var);
 		if (fichier != 0)
-			ft_printf("%s\n",line);
+			ft_printf("%s\n", line);
 		y = parsing_bis(line, &var, y);
 		i = parsing_ter(line, &var, i);
 	}
@@ -238,7 +112,7 @@ void parsing(int fichier)
 int	main(int argc, char *argv[])
 {
 	int 	fichier;
-	
+
 	if (argc == 1)
 		parsing(0);
 	else if (argc == 2)

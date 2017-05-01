@@ -65,7 +65,6 @@ typedef struct	s_parsing
 	char 		*start;
 	char		*end;
 	char 		*tabroom[100000];
-	// char 		**tab;
 	char 		*tabconnect[100000];
 }				t_parsing;
 
@@ -75,14 +74,20 @@ t_room			*room_exist(t_room *room, char *name);
 void			voisin_push_front(t_voisin **voisin, t_room *room);
 t_voisin		*next_voisin(t_room *room);
 void			room(char **tabroom);
-void	way(char **tabconnect);
-int find_id(char **tabroom, char *name);
-t_parcouru	*init_struct_parcours(t_room *room, int	g_ant_count);
+void			way(char **tabconnect);
+int 			find_id(char **tabroom, char *name);
+t_parcouru		*init_struct_parcours(t_room *room, int	g_ant_count);
 void			dijkstra(t_room *room, int distance);
 void			display_step(t_room *room, int number_ant, t_parcouru *parcouru, t_room *tmp3);
 void			display_algo(t_room *room, t_room *destination, t_parcouru *parcouru, int g_ant_count);
 int				ft_is_number(char *number);
 int 			ft_tabchr(char **tab1, char *c);
-int			countstr(char *str, char c);
+int				countstr(char *str, char c);
+int				ft_fourmis(char	*line);
+char			*ft_start_end(char *line);
+int 			ft_verifline(char *line);
+int				parsing_ter(char *line, t_parsing *var, int i);
+int 			parsing_bis(char *line, t_parsing	*var, int y);
+void			ft_error(t_parsing *var);
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_second.c                                    :+:      :+:    :+:   */
+/*   parsing_second.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jelmalem <jelmalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../includes/lem_in.h"
 
-int					ft_fourmis(char	*line)
+int					ft_fourmis(char *line)
 {
 	int fourmis;
 	int i;
@@ -37,6 +37,19 @@ int					ft_fourmis(char	*line)
 	return (fourmis);
 }
 
+void	freetab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
 char				*ft_start_end(char *line)
 {
 	char	*val;
@@ -46,18 +59,18 @@ char				*ft_start_end(char *line)
 	if (t[1] != NULL && ft_is_number(t[1]) != 0 && ft_is_number(t[2]) != 0)
 	{
 		val = t[0];
-		free(t);
+		// freetab(t);
 	}
 	else
 	{
-		free(t);
+		freetab(t);
 		ft_putstr("ERROR\n");
 		exit(0);
 	}
 	return (val);
 }
 
-int 				ft_verifline(char *line)
+int					ft_verifline(char *line)
 {
 	char **t;
 
@@ -85,14 +98,16 @@ int 				ft_verifline(char *line)
 	free(t);
 	return (1);
 }
+
 int					parsing_ter(char *line, t_parsing *var, int i)
 {
-	char 		**t;
+	char	**t;
 
 	t = ft_strsplit(line, '-');
 	if (t[1] != NULL)
 	{
-		if (ft_tabchr(var->tabroom, t[0]) == 0 || ft_tabchr(var->tabroom, t[1]) == 0)
+		if (ft_tabchr(var->tabroom, t[0]) == 0 ||
+			ft_tabchr(var->tabroom, t[1]) == 0)
 		{
 			ft_putstr("ERROR - CHAMBRE NON INIT\n");
 			ft_error(var);
@@ -108,12 +123,10 @@ int					parsing_ter(char *line, t_parsing *var, int i)
 	return (i);
 }
 
-int 				parsing_bis(char *line, t_parsing	*var, int y)
+int					parsing_bis(char *line, t_parsing *var, int y)
 {
 	static int x;
 
-	// if (ft_verifline(line) == 1 && var->fourmis != 0)
-	// 	ft_error(var);
 	if (var->fourmis == 0)
 		var->fourmis = ft_fourmis(line);
 	if (x == 1)

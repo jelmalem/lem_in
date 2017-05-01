@@ -12,7 +12,7 @@
 
 #include "../includes/lem_in.h"
 
-int ft_tabchr(char **tab1, char *c)
+int	ft_tabchr(char **tab1, char *c)
 {
 	int x;
 	int count;
@@ -20,7 +20,7 @@ int ft_tabchr(char **tab1, char *c)
 	count = 0;
 	x = 0;
 	while (tab1[x])
-	{	
+	{
 		if (ft_strcmp(tab1[x], c) == 0)
 			count++;
 		x++;

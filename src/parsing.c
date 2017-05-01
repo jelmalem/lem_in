@@ -64,9 +64,12 @@ void				run_algo(t_parsing *var)
 	end->distance = 0;
 	dijkstra(end, 0);
 	display_algo(start, end, parcouru, var->fourmis);
+	// free(var->tabconnect);
+	// free(var->tabroom);
+	while(42);
 }
 
-void			ft_error(t_parsing *var)
+void				ft_error(t_parsing *var)
 {
 	if (var->start != NULL && var->end != NULL)
 	{
@@ -104,14 +107,15 @@ void				parsing(int fichier)
 			ft_printf("%s\n", line);
 		y = parsing_bis(line, &var, y);
 		i = parsing_ter(line, &var, i);
+		ft_strdel(&line);
 	}
 	var.tabconnect[i] = NULL;
 	run_algo(&var);
 }
 
-int	main(int argc, char *argv[])
+int					main(int argc, char *argv[])
 {
-	int 	fichier;
+	int	fichier;
 
 	if (argc == 1)
 		parsing(0);

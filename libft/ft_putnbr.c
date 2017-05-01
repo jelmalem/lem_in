@@ -34,7 +34,7 @@ void			ft_putnbr(int nb)
 {
 	if (nb < 0)
 	{
-		//ft_putchar('-');
+		ft_putchar('-');
 		nb = -nb;
 	}
 	ft_display_big_nb(nb);

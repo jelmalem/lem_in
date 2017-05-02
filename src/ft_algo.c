@@ -65,7 +65,7 @@ void			display_step(t_room *room, int number_ant,
 			tmp2 = i;
 			while (parcouru[++k].ant[i] == 1)
 				room = next_room(tmp, room);
-			printf("L%d-%s ", j + 1, room->name);
+			ft_printf("L\033[31m%d\033[0m-\033[32m%s\033[0m ", j + 1, room->name);
 			parcouru[k].ant[i] = 1;
 		}
 		j++;
@@ -92,7 +92,7 @@ void			display_algo(t_room *room, t_room *destination,
 	while (1)
 	{
 		display_step(room, i, parcouru, tmp3);
-		printf("\n");
+		ft_printf("\n");
 		if (i < g_ant_count)
 			i++;
 		if (parcouru[g_max_pass - 1].ant[g_ant_count - 1])

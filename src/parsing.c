@@ -45,7 +45,7 @@ t_parcouru			*init_struct_parcours(t_room *room, int g_ant_count)
 	return (parcouru);
 }
 
-void				run_algo(t_parsing *var, tsecond_list *list)
+void				run_algo(t_parsing *var, tsecond_list *list, int x)
 {
 	t_room			*start;
 	t_room			*end;
@@ -63,8 +63,11 @@ void				run_algo(t_parsing *var, tsecond_list *list)
 	parcouru = init_struct_parcours(start, var->fourmis);
 	end->distance = 0;
 	dijkstra(end, 0);
-	printfile(list);
-	ft_printf("\n");
+	if (x == 1)
+	{
+		printfile(list);
+		ft_printf("\n");
+	}
 	display_algo(start, end, parcouru, var->fourmis);
 }
 
@@ -74,14 +77,13 @@ void				ft_error(t_parsing *var, tsecond_list *list)
 	{
 		if (var->tabconnect[0] != NULL && var->tabconnect[1] != NULL)
 		{
-			ft_putstr("ERROR - On peut quand même lancer l'algo !\n");
-			run_algo(var, list);
+			ft_putstr("ERROR - On va tenter de lancer l'algo !\n");
+			run_algo(var, list, 0);
 			exit(0);
 		}
 	}
 	else
 	{
-		printfile(list);
 		ft_putstr("ERROR - On ne peut pas lancer l'algo\n");
 		exit(0);
 	}
@@ -111,7 +113,7 @@ void				parsing(int fichier)
 		ft_strdel(&line);
 	}
 	var.tabconnect[i] = NULL;
-	run_algo(&var, list);
+	run_algo(&var, list, 1);
 }
 
 int					main(int argc, char *argv[])

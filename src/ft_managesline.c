@@ -33,7 +33,7 @@ void printfile(tsecond_list *list)
 {
     while (list)
     {
-        printf("%s\n", list->line);
+        ft_printf("%s\n", list->line);
         list = list->next;
     }
 }

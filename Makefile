@@ -21,6 +21,7 @@ SRC				=	convert.c			\
 					ft_tabchr.c			\
 					countstr.c			\
 					parsing_second.c	\
+					ft_managesline.c	\
 
 OBJ				=	$(addprefix $(OBJ_PATH),$(SRC:.c=.o))
 

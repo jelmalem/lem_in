@@ -26,6 +26,13 @@
 typedef struct s_room		t_room;
 typedef struct s_voisin		t_voisin;
 typedef struct s_parcouru	t_parcouru;
+typedef struct 		second_list	tsecond_list;
+
+struct 				second_list
+{
+	char			*line;
+	tsecond_list			*next;
+};
 
 struct						s_room
 {
@@ -86,8 +93,10 @@ int							countstr(char *str, char c);
 int							ft_fourmis(char	*line);
 char						*ft_start_end(char *line);
 int							ft_verifline(char *line);
-int							parsing_ter(char *line, t_parsing *var, int i);
+int							parsing_ter(char *line, t_parsing *var, int i, tsecond_list *list);
 int							parsing_bis(char *line, t_parsing	*var, int y);
-void						ft_error(t_parsing *var);
+void				ft_error(t_parsing *var, tsecond_list *list);
+tsecond_list *insertion(tsecond_list *list, char *nvNombre);
+void printfile(tsecond_list *list);
 
 #endif

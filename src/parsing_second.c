@@ -29,7 +29,7 @@ int					ft_fourmis(char *line)
 			fourmis = ft_atoi(line);
 		if (fourmis == 0 || ft_isdigit(line[i]) != 1)
 		{
-			ft_putstr("ERROR - Il n'y a pas de fourmis! OU FOURMIS\n");
+			ft_putstr("ERROR - FOURMIS\n");
 			exit(0);
 		}
 		i++;
@@ -87,7 +87,7 @@ int					ft_verifline(char *line)
 	return (1);
 }
 
-int					parsing_ter(char *line, t_parsing *var, int i)
+int					parsing_ter(char *line, t_parsing *var, int i, tsecond_list *list)
 {
 	char	**t;
 
@@ -98,7 +98,12 @@ int					parsing_ter(char *line, t_parsing *var, int i)
 			ft_tabchr(var->tabroom, t[1]) == 0)
 		{
 			ft_putstr("ERROR - CHAMBRE NON INIT\n");
-			ft_error(var);
+			ft_error(var, list);
+		}
+		if (ft_strcmp(t[0], t[1]) == 0) 	
+		{
+			ft_putstr("ERROR - LIAISON MEME ROOM\n");
+			ft_error(var, list);
 		}
 		var->tabconnect[i] = t[0];
 		i++;

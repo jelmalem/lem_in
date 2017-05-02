@@ -45,7 +45,7 @@ t_parcouru			*init_struct_parcours(t_room *room, int g_ant_count)
 	return (parcouru);
 }
 
-void				run_algo(t_parsing *var)
+void				run_algo(t_parsing *var, tsecond_list *list)
 {
 	t_room			*start;
 	t_room			*end;
@@ -63,22 +63,25 @@ void				run_algo(t_parsing *var)
 	parcouru = init_struct_parcours(start, var->fourmis);
 	end->distance = 0;
 	dijkstra(end, 0);
+	printfile(list);
+	ft_printf("\n");
 	display_algo(start, end, parcouru, var->fourmis);
 }
 
-void				ft_error(t_parsing *var)
+void				ft_error(t_parsing *var, tsecond_list *list)
 {
 	if (var->start != NULL && var->end != NULL)
 	{
 		if (var->tabconnect[0] != NULL && var->tabconnect[1] != NULL)
 		{
 			ft_putstr("ERROR - On peut quand même lancer l'algo !\n");
-			run_algo(var);
+			run_algo(var, list);
 			exit(0);
 		}
 	}
 	else
 	{
+		printfile(list);
 		ft_putstr("ERROR - On ne peut pas lancer l'algo\n");
 		exit(0);
 	}
@@ -90,24 +93,25 @@ void				parsing(int fichier)
 	int				i;
 	int				y;
 	t_parsing		var;
+	tsecond_list	*list;
 
 	var.start = NULL;
 	var.end = NULL;
 	var.fourmis = 0;
 	i = 0;
 	y = 0;
+	list = NULL;
 	while (get_next_line(fichier, &line) == 1)
 	{
 		if (ft_verifline(line) == 1 && var.fourmis != 0)
-			ft_error(&var);
-		if (fichier != 0)
-			ft_printf("%s\n", line);
+			ft_error(&var, list);
+		list = insertion(list, line);
 		y = parsing_bis(line, &var, y);
-		i = parsing_ter(line, &var, i);
+		i = parsing_ter(line, &var, i, list);
 		ft_strdel(&line);
 	}
 	var.tabconnect[i] = NULL;
-	run_algo(&var);
+	run_algo(&var, list);
 }
 
 int					main(int argc, char *argv[])
@@ -116,12 +120,7 @@ int					main(int argc, char *argv[])
 
 	if (argc == 1)
 		parsing(0);
-	else if (argc == 2)
-	{
-		fichier = open(argv[1], O_RDONLY);
-		parsing(fichier);
-	}
-	else if (argc > 2)
+	else if (argc >= 2)
 	{
 		ft_putstr("ERROR - Arg\n");
 		exit(0);

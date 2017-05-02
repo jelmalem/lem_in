@@ -37,6 +37,7 @@ int					ft_fourmis(char *line)
 	return (fourmis);
 }
 
+
 char				*ft_start_end(char *line)
 {
 	char	*val;
@@ -46,11 +47,11 @@ char				*ft_start_end(char *line)
 	if (t[1] != NULL && ft_is_number(t[1]) != 0 && ft_is_number(t[2]) != 0)
 	{
 		val = t[0];
-		// freetab(t);
+		free(t);
 	}
 	else
 	{
-		freetab(t);
+		free(t);
 		ft_putstr("ERROR\n");
 		exit(0);
 	}

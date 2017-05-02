@@ -37,19 +37,6 @@ int					ft_fourmis(char *line)
 	return (fourmis);
 }
 
-void	freetab(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
 char				*ft_start_end(char *line)
 {
 	char	*val;

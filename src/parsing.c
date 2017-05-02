@@ -64,9 +64,6 @@ void				run_algo(t_parsing *var)
 	end->distance = 0;
 	dijkstra(end, 0);
 	display_algo(start, end, parcouru, var->fourmis);
-	// free(var->tabconnect);
-	// free(var->tabroom);
-	while(42);
 }
 
 void				ft_error(t_parsing *var)

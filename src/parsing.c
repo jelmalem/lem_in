@@ -84,7 +84,7 @@ void				ft_error(t_parsing *var, tsecond_list *list)
 	}
 	else
 	{
-		ft_putstr("ERROR - Nous n'avons pas assez d'information pour lancer l'algo\n");
+		ft_putstr("ERROR - Nous n'avons pas assez d'infos pour lancer l'algo\n");
 		exit(0);
 	}
 }
@@ -105,6 +105,8 @@ void				parsing(int fichier)
 	list = NULL;
 	while (get_next_line(fichier, &line) == 1)
 	{
+		if (line == NULL)
+			run_algo(&var, list, 0);
 		if (ft_verifline(line) == 1 && var.fourmis != 0)
 			ft_error(&var, list);
 		list = insertion(list, line);

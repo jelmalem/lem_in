@@ -62,6 +62,8 @@ int					ft_verifline(char *line)
 {
 	char **t;
 
+	// if (line[0] == '#')
+	// 	return (0);
 	if (line[0] == '#')
 		return (0);
 	if (ft_strcmp(line, "##start") == 0)

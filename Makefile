@@ -25,7 +25,7 @@ SRC				=	convert.c			\
 
 OBJ				=	$(addprefix $(OBJ_PATH),$(SRC:.c=.o))
 
-CC				=	gcc
+CC				=	gcc -g
 CFLAGS			=	#-Wall -Wextra -Werror
 
 LIBFTPRINTF		=	./libft/libft.a ./libft/libftprintf.a

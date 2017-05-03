@@ -72,6 +72,15 @@ void			display_step(t_room *room, int number_ant,
 	}
 }
 
+void			max(int i)
+{
+	if (i > 1000000)
+	{
+		ft_printf("ERROR - Pas de chemin\n");
+		exit(0);
+	}
+}
+
 void			display_algo(t_room *room, t_room *destination,
 				t_parcouru *parcouru, int g_ant_count)
 {
@@ -88,6 +97,7 @@ void			display_algo(t_room *room, t_room *destination,
 		tmp = tmp2;
 		tmp2 = next_voisin(tmp2)->room;
 		g_max_pass++;
+		max(g_max_pass);
 	}
 	while (1)
 	{

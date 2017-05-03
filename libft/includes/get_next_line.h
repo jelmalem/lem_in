@@ -12,21 +12,15 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
+# include <string.h> 
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdlib.h>
 # include "libft.h"
+#define BUFF_SIZE 10
 
-# define BUFF_SIZE 32
-
-typedef struct			s_nextline
-{
-	char				buffer[BUFF_SIZE + 1];
-	int					fd;
-	int					nbr;
-	struct s_nextline	*next;
-}						t_nextline;
-
-int						get_next_line(const int fd, char **line);
+int		get_next_line(const int fd, char **line);
 
 #endif

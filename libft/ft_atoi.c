@@ -34,7 +34,7 @@ int	ft_atoi(const char *str)
 	}
 	if (ret > 2147483647)
 	{
-		ft_putstr("ERROR INT\n");
+		ft_putstr("ERROR - TROP DE FOURMIS\n");
 		exit(0);
 	}
 	return (ret * sign);

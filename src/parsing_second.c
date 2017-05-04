@@ -93,6 +93,11 @@ int			parsing_ter(char *line, t_parsing *var, int i, t_seclist *list)
 	t = ft_strsplit(line, '-');
 	if (t[1] != NULL)
 	{
+		if (t[3] != NULL)
+		{
+			ft_printf("ERROR\n");
+			exit(0);
+		}
 		if (ft_tabchr(var->tabroom, t[0]) == 0 ||
 			ft_tabchr(var->tabroom, t[1]) == 0)
 		{

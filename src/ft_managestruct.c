@@ -29,7 +29,8 @@ void			room_push_front(t_room **room_head, t_room *room_to_copy)
 {
 	t_room		*new_room;
 
-	new_room = malloc(sizeof(*new_room));
+	if (!(new_room = malloc(sizeof(*new_room))))
+		error();
 	ft_memcpy(new_room, room_to_copy, sizeof(*room_to_copy));
 	new_room->next = *room_head;
 	*room_head = new_room;
@@ -52,7 +53,8 @@ void			voisin_push_front(t_voisin **voisin, t_room *room)
 {
 	t_voisin	*new_voisin;
 
-	new_voisin = malloc(sizeof(*new_voisin));
+	if (!(new_voisin = malloc(sizeof(*new_voisin))))
+		error();
 	new_voisin->room = room;
 	new_voisin->next = *voisin;
 	*voisin = new_voisin;

@@ -17,7 +17,8 @@ t_seclist		*insertion(t_seclist *list, char *nvnombre)
 	t_seclist	*tmp;
 	t_seclist	*elem;
 
-	elem = (t_seclist*)malloc(sizeof(t_seclist));
+	if (!(elem = (t_seclist*)malloc(sizeof(t_seclist))))
+		error();
 	elem->line = ft_strdup(nvnombre);
 	elem->next = NULL;
 	if (list == NULL)
@@ -36,4 +37,10 @@ void			printfile(t_seclist *list)
 		ft_printf("%s\n", list->line);
 		list = list->next;
 	}
+}
+
+void			error(void)
+{
+	ft_printf("ERROR\n");
+	exit(0);
 }

@@ -11,7 +11,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME			=	lem_in
+NAME			=	lem-in
 
 SRC				=	convert.c			\
 					ft_algo.c			\
@@ -40,13 +40,13 @@ OBJ_PATH		=	./obj/
 
 all:			libftprintf $(NAME)
 
-$(NAME):	obj $(OBJ)
-				@printf "\n=> \x1B[33mCompiling lem_in...\x1b[37m"
+$(NAME):		obj $(OBJ)
+				@printf "\n=> \x1B[33mCompiling lem-in...\x1b[37m"
 				@$(CC) $(LIBLINK) -o $(NAME) $(OBJ)
-				@printf "\n=> \x1B[32mlem_in done !\x1B[37m\n"
+				@printf "\n=> \x1B[32mlem-in done !\x1B[37m\n"
 
 obj:
-				@printf "=> \e[38;5;208mMaking lem_in/obj dir... \x1B[37m"
+				@printf "=> \e[38;5;208mMaking lem-in/obj dir... \x1B[37m"
 				@mkdir -p $(OBJ_PATH)
 
 libftprintf:	$(LIBFTPRINTF)
@@ -60,11 +60,11 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 				@rm -rf $(OBJ_PATH)
-				@printf "=> \x1B[31mDeleting lem_in .obj files...\x1B[37m\n"
+				@printf "=> \x1B[31mDeleting lem-in .obj files...\x1B[37m\n"
 				@printf "=> \x1B[31mDeleting libft .obj files...\x1B[37m\n"
 
 fclean:			clean
-				@printf "=> \x1B[31mDeleting lem_in...\x1B[37m\n"
+				@printf "=> \x1B[31mDeleting lem-in...\x1B[37m\n"
 				@printf "=> \x1B[31mDeleting libft.a... \x1B[37m\n"
 				@rm -rf $(NAME)
 
@@ -73,5 +73,7 @@ re:				fclean all
 norme:
 				@norminette ./src/
 				@norminette ./includes/
+				@norminette ./libft/*.c
+				@norminette ./libft/includes/
 
-.phony : lem_in
+.phony : lem-in

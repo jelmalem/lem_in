@@ -103,5 +103,6 @@ int							parsing_bis(char *line, t_parsing *var, int y);
 void						ft_error(t_parsing *var, t_seclist *list);
 t_seclist					*insertion(t_seclist *list, char *nvnombre);
 void						printfile(t_seclist *list);
+void						error(void);
 
 #endif

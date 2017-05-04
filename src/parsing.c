@@ -27,14 +27,17 @@ t_parcouru			*init_struct_parcours(t_room *room, int g_ant_count)
 	t_parcouru		*parcouru;
 
 	i = 0;
-	parcouru = (t_parcouru*)malloc((g_case_count - 1) * sizeof(t_parcouru));
+	if (!(parcouru = (t_parcouru*)malloc((g_case_count - 1)
+		* sizeof(t_parcouru))))
+		error();
 	while (i != g_case_count - 1)
 	{
 		j = 0;
 		tmp = room;
 		room = next_voisin(room)->room;
 		parcouru[i].name = room->name;
-		parcouru[i].ant = (int*)malloc((g_ant_count) * sizeof(int));
+		if (!(parcouru[i].ant = (int*)malloc((g_ant_count) * sizeof(int))))
+			error();
 		while (j != g_ant_count)
 		{
 			parcouru[i].ant[j] = 0;
@@ -122,7 +125,6 @@ void				parsing(int fichier)
 int					main(int argc, char *argv[])
 {
 	argv = NULL;
-
 	if (argc == 1)
 		parsing(0);
 	else if (argc >= 2)

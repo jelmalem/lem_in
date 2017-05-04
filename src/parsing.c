@@ -69,6 +69,7 @@ void				run_algo(t_parsing *var, t_seclist *list, int x)
 		ft_printf("\n");
 	}
 	display_algo(start, end, parcouru, var->fourmis);
+	exit(0);
 }
 
 void				ft_error(t_parsing *var, t_seclist *list)
@@ -95,7 +96,7 @@ void				parsing(int fichier)
 	int				i;
 	int				y;
 	t_parsing		var;
-	t_seclist	*list;
+	t_seclist		*list;
 
 	var.start = NULL;
 	var.end = NULL;
@@ -120,7 +121,7 @@ void				parsing(int fichier)
 
 int					main(int argc, char *argv[])
 {
-	int	fichier;
+	argv = NULL;
 
 	if (argc == 1)
 		parsing(0);
@@ -129,5 +130,4 @@ int					main(int argc, char *argv[])
 		ft_putstr("ERROR - Arg\n");
 		exit(0);
 	}
-	fichier = 0;
 }

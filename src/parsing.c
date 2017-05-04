@@ -45,7 +45,7 @@ t_parcouru			*init_struct_parcours(t_room *room, int g_ant_count)
 	return (parcouru);
 }
 
-void				run_algo(t_parsing *var, tsecond_list *list, int x)
+void				run_algo(t_parsing *var, t_seclist *list, int x)
 {
 	t_room			*start;
 	t_room			*end;
@@ -71,7 +71,7 @@ void				run_algo(t_parsing *var, tsecond_list *list, int x)
 	display_algo(start, end, parcouru, var->fourmis);
 }
 
-void				ft_error(t_parsing *var, tsecond_list *list)
+void				ft_error(t_parsing *var, t_seclist *list)
 {
 	if (var->start != NULL && var->end != NULL)
 	{
@@ -84,7 +84,7 @@ void				ft_error(t_parsing *var, tsecond_list *list)
 	}
 	else
 	{
-		ft_putstr("ERROR - Nous n'avons pas assez d'infos pour lancer l'algo\n");
+		ft_putstr("ERROR - Pas assez d'infos pour lancer l'algo\n");
 		exit(0);
 	}
 }
@@ -95,7 +95,7 @@ void				parsing(int fichier)
 	int				i;
 	int				y;
 	t_parsing		var;
-	tsecond_list	*list;
+	t_seclist	*list;
 
 	var.start = NULL;
 	var.end = NULL;

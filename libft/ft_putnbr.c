@@ -39,4 +39,3 @@ void			ft_putnbr(int nb)
 	}
 	ft_display_big_nb(nb);
 }
-

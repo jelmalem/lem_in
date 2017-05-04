@@ -12,7 +12,7 @@
 
 #include "../includes/lem_in.h"
 
-int					ft_fourmis(char *line)
+int			ft_fourmis(char *line)
 {
 	int fourmis;
 	int i;
@@ -37,8 +37,7 @@ int					ft_fourmis(char *line)
 	return (fourmis);
 }
 
-
-char				*ft_start_end(char *line)
+char		*ft_start_end(char *line)
 {
 	char	*val;
 	char	**t;
@@ -58,12 +57,10 @@ char				*ft_start_end(char *line)
 	return (val);
 }
 
-int					ft_verifline(char *line)
+int			ft_verifline(char *line)
 {
 	char **t;
 
-	// if (line[0] == '#')
-	// 	return (0);
 	if (line[0] == '#')
 		return (0);
 	if (ft_strcmp(line, "##start") == 0)
@@ -89,7 +86,7 @@ int					ft_verifline(char *line)
 	return (1);
 }
 
-int					parsing_ter(char *line, t_parsing *var, int i, tsecond_list *list)
+int			parsing_ter(char *line, t_parsing *var, int i, t_seclist *list)
 {
 	char	**t;
 
@@ -118,7 +115,7 @@ int					parsing_ter(char *line, t_parsing *var, int i, tsecond_list *list)
 	return (i);
 }
 
-int					parsing_bis(char *line, t_parsing *var, int y)
+int			parsing_bis(char *line, t_parsing *var, int y)
 {
 	static int x;
 

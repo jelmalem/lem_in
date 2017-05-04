@@ -65,7 +65,8 @@ void			display_step(t_room *room, int number_ant,
 			tmp2 = i;
 			while (parcouru[++k].ant[i] == 1)
 				room = next_room(tmp, room);
-			ft_printf("L\033[31m%d\033[0m-\033[32m%s\033[0m ", j + 1, room->name);
+			ft_printf("L\033[31m%d\033[0m-\033[32m%s\033[0m "
+				, j + 1, room->name);
 			parcouru[k].ant[i] = 1;
 		}
 		j++;
